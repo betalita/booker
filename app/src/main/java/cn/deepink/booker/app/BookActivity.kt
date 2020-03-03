@@ -23,7 +23,7 @@ class BookActivity : AppCompatActivity(), ViewDelegate, View.OnClickListener {
     override fun onViewCreated() {
         controller.attach(intent) ?: return
         window.navigationBarColor = getColor(R.color.colorForeground)
-        mBookName.setDrawableStart(controller.book.sourceResId)
+        mBookName.setDrawableStart(controller.book.sourceType.icon)
         mBookName.text = controller.book.name
         mBookAuthor.text = controller.book.author
         mBookSummary.maxLines = Int.MAX_VALUE
@@ -35,7 +35,7 @@ class BookActivity : AppCompatActivity(), ViewDelegate, View.OnClickListener {
         controller.update().observe(this, Observer { book ->
             mBookStatus.text = if (book.state != STATE_END) book.lastUpdateTime.format() else getString(R.string.state_end)
             mBookLastChapterName.text = book.lastChapterName
-            mBookStatistics.text = getString(book.statisticsResId, book.chapterTotal, book.monthlyTicket, book.recommendedTicket)
+            mBookStatistics.text = getString(book.sourceType.statistics, book.chapterTotal, book.monthlyTicket, book.recommendedTicket)
         })
     }
 

@@ -83,15 +83,15 @@ class HomeActivity : AppCompatActivity(), ViewDelegate, View.OnClickListener {
     }
 
     inner class HomeAdapter : ListAdapter<Book>(R.layout.item_book, { old, new -> old.areContentTheSame(new) }, { old, new -> old.link == new.link }, { item, book ->
-        if (book.source == SOURCE_NONE) {
+        if (book.source == 0) {
             (item.itemView as TextView).text = book.name
         } else {
-            item.itemView.mBookName.setDrawableStart(book.sourceResId)
+            item.itemView.mBookName.setDrawableStart(book.sourceType.icon)
             item.itemView.mBookName.text = book.name
             item.itemView.mBookAuthor.text = book.author
             item.itemView.mBookUpdateChapter.text = book.lastChapterName
             item.itemView.mBookUpdateTime.text = book.lastUpdateTime.format()
-            item.itemView.mBookStatistics.text = getString(book.statisticsResId, book.chapterTotal, book.monthlyTicket, book.recommendedTicket)
+            item.itemView.mBookStatistics.text = getString(book.sourceType.statistics, book.chapterTotal, book.monthlyTicket, book.recommendedTicket)
             item.itemView.setOnClickListener { openBook(item.itemView, book) }
         }
     }) {
@@ -99,7 +99,7 @@ class HomeActivity : AppCompatActivity(), ViewDelegate, View.OnClickListener {
             return VH(LayoutInflater.from(this@HomeActivity).inflate(viewType, parent, false))
         }
 
-        override fun getItemViewType(position: Int) = if (getItem(position).source == SOURCE_NONE) R.layout.item_book_group else R.layout.item_book
+        override fun getItemViewType(position: Int) = if (getItem(position).source == 0) R.layout.item_book_group else R.layout.item_book
     }
 
 }
