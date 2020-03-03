@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import cn.deepink.booker.R
 import cn.deepink.booker.common.Room
+import cn.deepink.booker.common.TAG_HOME
 import cn.deepink.booker.common.TAG_SEARCH
 import cn.deepink.booker.http.BookUpdater
 import cn.deepink.booker.model.Book
@@ -16,7 +17,8 @@ class BookViewModel : ViewModel() {
     lateinit var book: Book
 
     fun attach(intent: Intent): Book? {
-        book = intent.getParcelableExtra(TAG_SEARCH) ?: return null
+        val tag = if (intent.hasExtra(TAG_HOME)) TAG_HOME else TAG_SEARCH
+        book = intent.getParcelableExtra(tag) ?: return null
         return book
     }
 
@@ -24,7 +26,9 @@ class BookViewModel : ViewModel() {
      * 更新
      */
     fun update(): LiveData<Book> = liveData(Dispatchers.IO) {
-        BookUpdater(book).checkUpdate(false)
+        if (!Room.book().isExist(book.link)) {
+            BookUpdater(book).checkUpdate(false)
+        }
         emit(book)
     }
 
