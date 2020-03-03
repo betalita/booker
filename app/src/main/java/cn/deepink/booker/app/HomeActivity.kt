@@ -83,7 +83,7 @@ class HomeActivity : AppCompatActivity(), ViewDelegate, View.OnClickListener {
     }
 
     inner class HomeAdapter : ListAdapter<Book>(R.layout.item_book, { old, new -> old.areContentTheSame(new) }, { old, new -> old.link == new.link }, { item, book ->
-        if (book.source == 0) {
+        if (book.source.isEmpty()) {
             (item.itemView as TextView).text = book.name
         } else {
             item.itemView.mBookName.setDrawableStart(book.sourceType.icon)
@@ -99,7 +99,7 @@ class HomeActivity : AppCompatActivity(), ViewDelegate, View.OnClickListener {
             return VH(LayoutInflater.from(this@HomeActivity).inflate(viewType, parent, false))
         }
 
-        override fun getItemViewType(position: Int) = if (getItem(position).source == 0) R.layout.item_book_group else R.layout.item_book
+        override fun getItemViewType(position: Int) = if (getItem(position).source.isEmpty()) R.layout.item_book_group else R.layout.item_book
     }
 
 }

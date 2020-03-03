@@ -13,7 +13,7 @@ data class EBTangResponse(val document: Document) {
 }
 
 data class EBTangItem(val element: Element) {
-    fun toBook() = Book(SOURCE.EBTang.code,
+    fun toBook() = Book(SOURCE.EBTang.name,
             name = element.attr("d-name").removeHtml(),
             author = element.attr("d-nick").removeHtml(),
             summary = element.attr("d-info").removeHtml(),

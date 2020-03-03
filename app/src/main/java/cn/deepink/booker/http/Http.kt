@@ -36,10 +36,10 @@ object Http {
 /**
  * 来源声明
  */
-enum class SOURCE(val code: Int, val icon: Int, val statistics: Int) {
-    QiDian(0x01, R.drawable.ic_source_qidian, R.string.book_statistics_qidian),
-    JinJiang(0x02, R.drawable.ic_source_jjwxc, R.string.book_statistics_jijiang),
-    EBTang(0x03, R.drawable.ic_source_ebtang, R.string.book_statistics_etbang)
+enum class SOURCE(val icon: Int, val statistics: Int) {
+    QiDian(R.drawable.ic_source_qidian, R.string.book_statistics_qidian),
+    JinJiang(R.drawable.ic_source_jjwxc, R.string.book_statistics_jijiang),
+    EBTang(R.drawable.ic_source_ebtang, R.string.book_statistics_etbang)
 }
 
 /**

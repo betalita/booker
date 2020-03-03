@@ -8,7 +8,7 @@ data class JinJiangResponse(val items: List<JinJiangItem>) {
 
 data class JinJiangItem(val novelid: Long, val novelname: String, val authorname: String, val novelintro: String, val cover: String, val novelClass: String) {
 
-    fun toBook() = Book(SOURCE.JinJiang.code, novelname, authorname, novelintro.trim(), cover, "http://app-cdn.jjwxc.net:80/androidapi/novelbasicinfo?novelId=$novelid", novelClass.split("-").first())
+    fun toBook() = Book(SOURCE.JinJiang.name, novelname, authorname, novelintro.trim(), cover, "http://app-cdn.jjwxc.net:80/androidapi/novelbasicinfo?novelId=$novelid", novelClass.split("-").first())
 
 }
 

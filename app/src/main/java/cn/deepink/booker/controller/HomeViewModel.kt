@@ -26,15 +26,15 @@ class HomeViewModel : ViewModel() {
         val today = dateFormat.format(Date()).toInt()
         var indexOf = books.indexOfFirst { dateFormat.format(it.lastUpdateTime).toInt() == today }
         if (indexOf > -1) {
-            books.add(indexOf, Book(0, context.getString(R.string.today)))
+            books.add(indexOf, Book("", context.getString(R.string.today)))
         }
         indexOf = books.indexOfFirst { it.lastUpdateTime > 0 && today - dateFormat.format(it.lastUpdateTime).toInt() == 1 }
         if (indexOf > -1) {
-            books.add(indexOf, Book(0, context.getString(R.string.yestoday)))
+            books.add(indexOf, Book("", context.getString(R.string.yestoday)))
         }
         indexOf = books.indexOfFirst { it.lastUpdateTime > 0 && today - dateFormat.format(it.lastUpdateTime).toInt() > 1 }
         if (indexOf > -1) {
-            books.add(indexOf, Book(0, context.getString(R.string.old_day)))
+            books.add(indexOf, Book("", context.getString(R.string.old_day)))
         }
         return books
     }
