@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AppTheme.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/x2"
+    android:layout_marginTop="@dimen/x1"
+    android:layout_marginEnd="@dimen/x2"
+    android:layout_marginBottom="4dp"
+    android:transitionName="@string/transition"
+    app:rippleColor="@android:color/transparent"
+    tools:targetApi="p">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selected_background">
+
+        <TextView
+            android:id="@+id/mBookName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/mBookAuthor"
+            android:drawableStart="@drawable/ic_source_qidian"
+            android:drawablePadding="@dimen/x2"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:padding="@dimen/x2"
+            android:textColor="@color/colorContent"
+            android:textSize="14sp"
+            tools:text="书名" />
+
+        <TextView
+            android:id="@+id/mBookAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/mBookName"
+            android:layout_alignParentEnd="true"
+            android:gravity="center_vertical"
+            android:padding="@dimen/x2"
+            android:textColor="@color/colorSecondary"
+            android:textSize="13sp"
+            tools:text="作者" />
+
+        <View
+            android:id="@+id/mBookLine"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/mBookName"
+            android:background="@color/colorBackground" />
+
+        <TextView
+            android:id="@+id/mBookSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mBookLine"
+            android:ellipsize="end"
+            android:lineSpacingMultiplier="1.2"
+            android:maxLines="3"
+            android:padding="@dimen/x2"
+            android:textColor="@color/colorSecondary" />
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

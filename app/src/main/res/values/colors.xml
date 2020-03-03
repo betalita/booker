@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="ic_launcher_background">#FFFFFF</color>
+
+    <color name="colorPrimary">#FAFAFA</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorAccent">#000000</color>
+
+    <color name="colorBackground">#FAFAFA</color>
+    <color name="colorForeground">#FFFFFF</color>
+    <color name="colorShadow">#CCCCCC</color>
+    <color name="colorRipple">#DFDFDF</color>
+    <color name="colorStroke">#F2F2F2</color>
+
+    <color name="colorContent">#222222</color>
+    <color name="colorSecondary">#888888</color>
+
+</resources>

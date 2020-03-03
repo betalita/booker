@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selected_background"
+    android:drawableStart="@drawable/ic_action_search"
+    android:drawablePadding="@dimen/x2"
+    android:gravity="center_vertical"
+    android:paddingStart="27dp"
+    android:paddingTop="@dimen/x2"
+    android:paddingEnd="@dimen/x2"
+    android:paddingBottom="@dimen/x2"
+    android:textColor="@color/colorSecondary"
+    android:textColorHighlight="@color/colorContent"
+    tools:text="第一序列" />

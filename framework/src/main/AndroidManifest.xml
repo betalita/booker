@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.deepink.framework">
+
+    <application>
+        <provider
+            android:name=".provider.ApplicationContentProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false" />
+    </application>
+</manifest>

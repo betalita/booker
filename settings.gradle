@@ -1,0 +1,3 @@
+rootProject.name='Bookers'
+include ':app'
+include ':framework'

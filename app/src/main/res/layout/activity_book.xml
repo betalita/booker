@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".app.BookActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="?actionBarSize">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x2"
+                android:layout_marginTop="@dimen/x4"
+                android:text="@string/summary"
+                android:textColor="@color/colorSecondary" />
+
+            <include layout="@layout/item_book_search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x2"
+                android:layout_marginTop="@dimen/x4"
+                android:text="@string/state"
+                android:textColor="@color/colorSecondary" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/AppTheme.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x2"
+                android:layout_marginTop="@dimen/x1"
+                android:layout_marginEnd="@dimen/x2"
+                android:layout_marginBottom="@dimen/x2"
+                app:rippleColor="@android:color/transparent"
+                tools:targetApi="p">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selected_background"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/mBookStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x2"
+                        android:layout_marginTop="@dimen/x2"
+                        android:layout_marginEnd="@dimen/x2"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:textColor="@color/colorContent"
+                        android:textSize="12sp"
+                        tools:text="7小时前" />
+
+                    <TextView
+                        android:id="@+id/mBookLastChapterName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x2"
+                        android:layout_marginTop="@dimen/x1"
+                        android:layout_marginEnd="@dimen/x2"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/colorContent"
+                        tools:text="第九章" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="@dimen/x2"
+                        android:layout_marginBottom="@dimen/x2"
+                        android:background="@color/colorBackground" />
+
+                    <TextView
+                        android:id="@+id/mBookStatistics"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x2"
+                        android:layout_marginEnd="@dimen/x2"
+                        android:layout_marginBottom="@dimen/x2"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/colorSecondary"
+                        android:textSize="12sp"
+                        tools:text="共1304章 ｜ 月票283张 ｜ 推荐票2839章" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorForeground"
+        android:elevation="6dp"
+        android:orientation="vertical"
+        android:outlineSpotShadowColor="@color/colorShadow"
+        tools:targetApi="p">
+
+        <TextView
+            android:id="@+id/mBookSubscribe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/selected_background"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:padding="@dimen/x2"
+            android:text="@string/subscribe"
+            android:textColor="@color/colorContent"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</RelativeLayout>

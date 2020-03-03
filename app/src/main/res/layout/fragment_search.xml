@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mSearchResultRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/mSearchBox"
+        android:clipToPadding="false"
+        android:paddingTop="48dp"
+        android:paddingBottom="@dimen/x2"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <TextView
+        android:id="@+id/mSearchResultTitle"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/bg_overlay"
+        android:paddingStart="20dp"
+        android:paddingTop="@dimen/x2"
+        android:paddingEnd="@dimen/x2"
+        android:text="@string/search_result"
+        android:textColor="@color/colorSecondary"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mSearchQuickRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/mSearchBox"
+        android:paddingBottom="@dimen/x1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <RelativeLayout
+        android:id="@+id/mSearchBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:animateLayoutChanges="true"
+        android:background="@color/colorForeground"
+        android:elevation="6dp"
+        android:outlineSpotShadowColor="@color/colorShadow"
+        tools:targetApi="p">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/mSearchBoxInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="@dimen/x1"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="@dimen/x1"
+            android:background="@drawable/bg_rounded"
+            android:drawableStart="@drawable/ic_action_search"
+            android:drawablePadding="@dimen/x2"
+            android:drawableTint="@color/colorSecondary"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:paddingStart="@dimen/x2"
+            android:paddingTop="@dimen/x1"
+            android:paddingEnd="@dimen/x2"
+            android:paddingBottom="@dimen/x1"
+            android:singleLine="true"
+            android:textColor="@color/colorContent"
+            android:textColorHint="@color/colorSecondary"
+            android:textSize="14sp">
+
+            <requestFocus />
+        </com.google.android.material.textfield.TextInputEditText>
+
+        <ImageView
+            android:id="@+id/mSearchBoxClear"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x3"
+            android:background="@drawable/bg_rounded"
+            android:backgroundTint="@color/colorContent"
+            android:contentDescription="@string/clear"
+            android:padding="4.5dp"
+            android:src="@drawable/ic_action_clear"
+            android:tint="@color/colorForeground"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

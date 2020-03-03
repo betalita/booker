@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">养肥君</string>
+    <string name="add">添加</string>
+    <string name="more">更多</string>
+    <string name="search_hint">搜索书名</string>
+    <string name="transition">transition</string>
+
+    <string name="book_statistics_qidian">共%d章 ｜ 月票%d张 ｜ 推荐票%d张</string>
+    <string name="book_statistics_jijiang">共%d章 ｜ 收藏数%d ｜ 营养液%d瓶</string>
+
+    <string name="state">状态</string>
+    <string name="summary">详情</string>
+    <string name="subscribe">订阅</string>
+    <string name="unsubscribe">取消订阅</string>
+    <string name="state_end">完结</string>
+    <string name="today">今日</string>
+    <string name="yestoday">昨日</string>
+    <string name="old_day">往日</string>
+    <string name="clear">清除</string>
+    <string name="search_result">搜索结果</string>
+</resources>
