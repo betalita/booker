@@ -18,18 +18,22 @@ object Http {
 
     private val retrofit = Retrofit.Builder().baseUrl("https://m.qidian.com").client(buildHttpClient()).addConverterFactory(GsonConverterFactory.create()).build()
 
-    val search: SearchService = retrofit.create(SearchService::class.java)
+    val jsonService: JsonService = retrofit.create(JsonService::class.java)
+    val htmlService: HtmlService = HtmlService()
 
     private fun buildHttpClient() = OkHttpClient.Builder()
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(15, TimeUnit.SECONDS)
-        .writeTimeout(15, TimeUnit.SECONDS)
-        .addInterceptor(HttpLoggingInterceptor().apply { level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE })
-        .build()
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .addInterceptor(HttpLoggingInterceptor().apply { level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE })
+            .build()
 
 }
 
-interface SearchService {
+/**
+ * Json
+ */
+interface JsonService {
 
     @GET("majax/search/list")
     fun qidian(@Query("kw") bookName: String): Call<QiDianSearchResponse>
@@ -42,5 +46,12 @@ interface SearchService {
 
     @GET
     fun jinjiangDetail(@Url url: String): Call<JinJiangBook>
+
+}
+
+/**
+ * Html
+ */
+class HtmlService {
 
 }

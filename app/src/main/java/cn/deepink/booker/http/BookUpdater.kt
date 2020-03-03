@@ -38,7 +38,7 @@ class BookUpdater(private val book: Book) {
         //推荐票
         book.recommendedTicket = document.selectFirst(".recomm-ticket-cnt").text().toInt()
         //章节总数
-        Http.search.qidianCatalog(Regex("[0-9]+").find(book.link)?.value.orEmpty()).execute().body()?.data?.run {
+        Http.jsonService.qidianCatalog(Regex("[0-9]+").find(book.link)?.value.orEmpty()).execute().body()?.data?.run {
             book.chapterTotal = chapterTotalCnt
             book.lastChapterName = vs.last().cs.last().cN
             book.lastUpdateTime = SimpleDateFormat("yyyy-MM-dd  HH:mm", Locale.CHINESE).parse(vs.last().cs.last().uT)?.time ?: 0
@@ -49,7 +49,7 @@ class BookUpdater(private val book: Book) {
      * 晋江文学城
      */
     private fun updateFromJinJiang() {
-        val detail = Http.search.jinjiangDetail(book.link).execute().body() ?: return
+        val detail = Http.jsonService.jinjiangDetail(book.link).execute().body() ?: return
         book.state = if (detail.novelStep == 1) 1 else 0
         book.wordsTotal = detail.novelSize
         book.chapterTotal = detail.novelChapterCount

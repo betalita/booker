@@ -28,7 +28,7 @@ class SearchViewModel : ViewModel() {
         searchStateLiveData.postValue(true)
         searchKey = bookName
         if (searchKey.isNotBlank()) {
-            val bookInfoList = Http.search.qidian(bookName).execute().body()?.getBookList()?.filter { it.name.contains(bookName) }.orEmpty()
+            val bookInfoList = Http.jsonService.qidian(bookName).execute().body()?.getBookList()?.filter { it.name.contains(bookName) }.orEmpty()
             emit(bookInfoList.subList(0, min(bookInfoList.size, 8)).reversed())
         } else {
             emit(emptyList())
@@ -60,7 +60,7 @@ class SearchViewModel : ViewModel() {
      * 起点中文网
      */
     private fun searchByQidian(bookName: String) = try {
-        Http.search.qidian(bookName).execute().body()?.getBookList()?.filter { it.name.contains(bookName) }.orEmpty()
+        Http.jsonService.qidian(bookName).execute().body()?.getBookList()?.filter { it.name.contains(bookName) }.orEmpty()
     }catch (e: Exception) {
         emptyList<Book>()
     }
@@ -69,7 +69,7 @@ class SearchViewModel : ViewModel() {
      * 晋江文学城
      */
     private fun searchByJinJiang(bookName: String) = try {
-        Http.search.jinjiang(bookName).execute().body()?.getBookList()?.filter { it.name.contains(bookName) }.orEmpty()
+        Http.jsonService.jinjiang(bookName).execute().body()?.getBookList()?.filter { it.name.contains(bookName) }.orEmpty()
     }catch (e: Exception) {
         emptyList<Book>()
     }
