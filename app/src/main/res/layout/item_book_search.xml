@@ -30,7 +30,7 @@
             android:maxLines="1"
             android:padding="@dimen/x2"
             android:textColor="@color/colorContent"
-            android:textSize="14sp"
+            android:textSize="15sp"
             tools:text="书名" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:gravity="center_vertical"
             android:padding="@dimen/x2"
             android:textColor="@color/colorSecondary"
-            android:textSize="13sp"
+            android:textSize="12sp"
             tools:text="作者" />
 
         <View

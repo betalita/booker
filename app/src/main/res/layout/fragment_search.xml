@@ -13,17 +13,17 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/mSearchBox"
         android:clipToPadding="false"
-        android:paddingTop="48dp"
+        android:paddingTop="56dp"
         android:paddingBottom="@dimen/x2"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <TextView
         android:id="@+id/mSearchResultTitle"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="96dp"
         android:background="@drawable/bg_overlay"
-        android:paddingStart="20dp"
-        android:paddingTop="@dimen/x2"
+        android:paddingStart="@dimen/x2"
+        android:paddingTop="@dimen/x4"
         android:paddingEnd="@dimen/x2"
         android:text="@string/search_result"
         android:textColor="@color/colorSecondary"

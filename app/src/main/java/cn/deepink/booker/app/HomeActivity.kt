@@ -1,10 +1,13 @@
 package cn.deepink.booker.app
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
@@ -31,7 +34,11 @@ class HomeActivity : AppCompatActivity(), ViewDelegate, View.OnClickListener {
     }
 
     override fun onDataObserve() {
-        controller.bookLiveData.observe(this, Observer { adapter.submitList(controller.addBookGroup(it.toMutableList())) })
+        controller.bookLiveData.observe(this, Observer {
+            mHomeTips.isVisible = it.isEmpty()
+            mHomeRefreshLayout.isEnabled = it.isNotEmpty()
+            adapter.submitList(controller.addBookGroup(it.toMutableList()))
+        })
         checkUpdate()
     }
 
@@ -66,6 +73,15 @@ class HomeActivity : AppCompatActivity(), ViewDelegate, View.OnClickListener {
         super.onBackPressed()
     }
 
+    /**
+     * 查看详情
+     */
+    private fun openBook(view: View, book: Book) {
+        val intent = Intent(this, BookActivity::class.java)
+        intent.putExtra(TAG_HOME, book)
+        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, getString(R.string.transition)).toBundle())
+    }
+
     inner class HomeAdapter : ListAdapter<Book>(R.layout.item_book, { old, new -> old.areContentTheSame(new) }, { old, new -> old.link == new.link }, { item, book ->
         if (book.source == SOURCE_NONE) {
             (item.itemView as TextView).text = book.name
@@ -76,6 +92,7 @@ class HomeActivity : AppCompatActivity(), ViewDelegate, View.OnClickListener {
             item.itemView.mBookUpdateChapter.text = book.lastChapterName
             item.itemView.mBookUpdateTime.text = book.lastUpdateTime.format()
             item.itemView.mBookStatistics.text = getString(book.statisticsResId, book.chapterTotal, book.monthlyTicket, book.recommendedTicket)
+            item.itemView.setOnClickListener { openBook(item.itemView, book) }
         }
     }) {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -84,4 +101,5 @@ class HomeActivity : AppCompatActivity(), ViewDelegate, View.OnClickListener {
 
         override fun getItemViewType(position: Int) = if (getItem(position).source == SOURCE_NONE) R.layout.item_book_group else R.layout.item_book
     }
+
 }
