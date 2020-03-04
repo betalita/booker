@@ -28,7 +28,8 @@ object Http {
             SOURCE.JinJiang -> jsonService.jinjiang(bookName).execute().body()?.getBookList()
             SOURCE.EBTang -> htmlService.ebTang(bookName).getBookList()
             SOURCE.MoTie -> jsonService.motie(bookName).execute().body()?.getBookList()
-            SOURCE.HanWuJiNian -> htmlService.hanWuJiNian(bookName).getBookList().apply { ALog.w(this) }
+            SOURCE.CiWeiMao -> htmlService.ciweimao(bookName).getBookList()
+            SOURCE.HanWuJiNian -> htmlService.hanWuJiNian(bookName).getBookList()
         }?.filter { it.name.contains(bookName) } ?: emptyList()
     } catch (e: Exception) {
         emptyList()
@@ -96,9 +97,7 @@ class HtmlService {
     }
 
     fun hanWuJiNian(bookName: String): HanWuJiNianResponse {
-        return HanWuJiNianResponse(Jsoup.connect("https://wap.hanwujinian.com/modules/article/search.php?searchkey=${URLEncoder.encode(bookName, "GBK")}&searchtype=all").get().apply {
-            ALog.w(this.outerHtml())
-        })
+        return HanWuJiNianResponse(Jsoup.connect("https://wap.hanwujinian.com/modules/article/search.php?searchkey=${URLEncoder.encode(bookName, "GBK")}&searchtype=all").get())
     }
 
 }
