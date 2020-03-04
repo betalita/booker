@@ -17,6 +17,7 @@ class BookUpdater(private val book: Book) {
             SOURCE.QiDian -> updateFromQidian()
             SOURCE.JinJiang -> updateFromJinJiang()
             SOURCE.EBTang -> updateFromEBTang()
+            SOURCE.MoTie -> updateFromMoTie()
         }
         if (isUpdateDatabase) {
             Room.book().update(book)
@@ -71,5 +72,20 @@ class BookUpdater(private val book: Book) {
         book.monthlyTicket = detail.attr("d-golden").toInt()
         book.recommendedTicket = detail.attr("d-hot").toInt()
         book.chapterTotal = Jsoup.connect("${book.link}/directory").get().select("b.chapter").size
+    }
+
+    /**
+     * 磨铁
+     */
+    private fun updateFromMoTie() {
+        val detail = Http.jsonService.motieDetail(book.link).execute().body()?.data ?: return
+        book.category = detail.sortName
+        book.state = if (detail.finished) 0 else 1
+        book.wordsTotal = detail.words.toString()
+        book.lastChapterName = detail.lastChapterList.firstOrNull()?.name.orEmpty()
+        book.lastUpdateTime = detail.lastChapterList.firstOrNull()?.showTime ?: 0
+        book.monthlyTicket = detail.visitCount
+        book.recommendedTicket = detail.supportCount
+        book.chapterTotal = detail.chapterCount
     }
 }

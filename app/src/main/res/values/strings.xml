@@ -22,5 +22,6 @@
     <string name="book_statistics_qidian">共%d章 ｜ 月票%d张 ｜ 推荐票%d张</string>
     <string name="book_statistics_jijiang">共%d章 ｜ 收藏数%d ｜ 营养液%d瓶</string>
     <string name="book_statistics_etbang">共%d章 ｜ 金票%d张 ｜ %d人喜欢看</string>
+    <string name="book_statistics_motie">共%d章 ｜ 点击数%d ｜ 推荐票%d张</string>
 
 </resources>

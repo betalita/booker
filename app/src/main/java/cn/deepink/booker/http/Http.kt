@@ -2,10 +2,7 @@ package cn.deepink.booker.http
 
 import cn.deepink.booker.BuildConfig
 import cn.deepink.booker.R
-import cn.deepink.booker.model.EBTangResponse
-import cn.deepink.booker.model.JinJiangBook
-import cn.deepink.booker.model.JinJiangResponse
-import cn.deepink.booker.model.QiDianSearchResponse
+import cn.deepink.booker.model.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jsoup.Jsoup
@@ -21,8 +18,19 @@ object Http {
 
     private val retrofit = Retrofit.Builder().baseUrl("https://m.qidian.com").client(buildHttpClient()).addConverterFactory(GsonConverterFactory.create()).build()
 
+    private val htmlService: HtmlService = HtmlService()
     val jsonService: JsonService = retrofit.create(JsonService::class.java)
-    val htmlService: HtmlService = HtmlService()
+
+    fun search(source: SOURCE, bookName: String): List<Book> = try {
+        when (source) {
+            SOURCE.QiDian -> jsonService.qidian(bookName).execute().body()?.getBookList()
+            SOURCE.JinJiang -> jsonService.jinjiang(bookName).execute().body()?.getBookList()
+            SOURCE.EBTang -> htmlService.ebTang(bookName).getBookList()
+            SOURCE.MoTie -> jsonService.motie(bookName).execute().body()?.getBookList()
+        }?.filter { it.name.contains(bookName) } ?: emptyList()
+    } catch (e: Exception) {
+        emptyList()
+    }
 
     private fun buildHttpClient() = OkHttpClient.Builder()
             .connectTimeout(15, TimeUnit.SECONDS)
@@ -39,7 +47,8 @@ object Http {
 enum class SOURCE(val icon: Int, val statistics: Int) {
     QiDian(R.drawable.ic_source_qidian, R.string.book_statistics_qidian),
     JinJiang(R.drawable.ic_source_jjwxc, R.string.book_statistics_jijiang),
-    EBTang(R.drawable.ic_source_ebtang, R.string.book_statistics_etbang)
+    EBTang(R.drawable.ic_source_ebtang, R.string.book_statistics_etbang),
+    MoTie(R.drawable.ic_source_motie, R.string.book_statistics_motie)
 }
 
 /**
@@ -59,6 +68,11 @@ interface JsonService {
     @GET
     fun jinjiangDetail(@Url url: String): Call<JinJiangBook>
 
+    @GET("https://app2.motie.com/search?pageNo=1&pageSize=10")
+    fun motie(@Query("word") bookName: String): Call<MoTieResponse>
+
+    @GET
+    fun motieDetail(@Url url: String): Call<MoTieResponse>
 }
 
 /**
