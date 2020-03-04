@@ -65,6 +65,7 @@ class HomeActivity : AppCompatActivity(), ViewDelegate, View.OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             mHomeAddButton -> showOrHideSearchLayout(View.VISIBLE, SearchFragment())
+            mHomeMoreButton -> startActivity(Intent(this, SettingsActivity::class.java))
         }
     }
 

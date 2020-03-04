@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selected_background">
+
+    <TextView
+        android:id="@+id/mWebName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/mWebUrl"
+        android:drawablePadding="@dimen/x2"
+        android:padding="@dimen/x2"
+        android:textColor="@color/colorContent"
+        android:textSize="14sp"
+        tools:drawableStart="@drawable/ic_source_qidian"
+        tools:text="起点中文网" />
+
+    <TextView
+        android:id="@+id/mWebUrl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/mWebName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x2"
+        android:textColor="@color/colorSecondary"
+        android:textSize="12sp"
+        tools:text="www.qidian.com" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.4dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorStroke" />
+
+</RelativeLayout>

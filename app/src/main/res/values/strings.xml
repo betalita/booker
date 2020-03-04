@@ -26,5 +26,6 @@
     <string name="book_statistics_ciweimao">共%d章 ｜ 月票%d张 ｜ 推荐票%d张</string>
     <string name="book_statistics_hanwujinian">共%d章 ｜ 收藏数%d ｜ 推荐票%d张</string>
     <string name="book_statistics_douban">共%d章 ｜ 阅读%d ｜ 推荐票%d张</string>
+    <string name="web">网站</string>
 
 </resources>

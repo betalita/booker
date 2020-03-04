@@ -50,14 +50,14 @@ object Http {
 /**
  * 来源声明
  */
-enum class SOURCE(val icon: Int, val statistics: Int) {
-    QiDian(R.drawable.ic_source_qidian, R.string.book_statistics_qidian),
-    JinJiang(R.drawable.ic_source_jjwxc, R.string.book_statistics_jijiang),
-    MoTie(R.drawable.ic_source_motie, R.string.book_statistics_motie),
-    CiWeiMao(R.drawable.ic_source_ciweimao, R.string.book_statistics_ciweimao),
-    DouBan(R.drawable.ic_source_douban, R.string.book_statistics_douban),
-    EBTang(R.drawable.ic_source_ebtang, R.string.book_statistics_etbang),
-    HanWuJiNian(R.drawable.ic_source_hanwujinian, R.string.book_statistics_hanwujinian)
+enum class SOURCE(val title: String, val url: String, val icon: Int, val statistics: Int) {
+    QiDian("起点中文网", "https://www.qidian.com", R.drawable.ic_source_qidian, R.string.book_statistics_qidian),
+    JinJiang("晋江文学城", "http://www.jjwxc.net", R.drawable.ic_source_jjwxc, R.string.book_statistics_jijiang),
+    MoTie("磨铁中文网", "http://www.motie.com", R.drawable.ic_source_motie, R.string.book_statistics_motie),
+    CiWeiMao("刺猬猫", "https://www.ciweimao.com", R.drawable.ic_source_ciweimao, R.string.book_statistics_ciweimao),
+    DouBan("豆瓣阅读", "https://read.douban.com", R.drawable.ic_source_douban, R.string.book_statistics_douban),
+    EBTang("雁北堂", "http://www.ebtang.com", R.drawable.ic_source_ebtang, R.string.book_statistics_etbang),
+    HanWuJiNian("寒武纪年", "https://www.hanwujinian.com", R.drawable.ic_source_hanwujinian, R.string.book_statistics_hanwujinian)
 }
 
 /**
