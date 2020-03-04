@@ -2,6 +2,7 @@ package cn.deepink.booker.common
 
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.core.text.HtmlCompat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -10,6 +11,8 @@ fun TextView.setDrawableStart(@DrawableRes drawableRes: Int) {
     drawable?.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
     setCompoundDrawables(drawable, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3])
 }
+
+fun String.removeHtml() = HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()
 
 fun Long.format(): String {
     val minutes = (System.currentTimeMillis() - this) / 1000 / 60

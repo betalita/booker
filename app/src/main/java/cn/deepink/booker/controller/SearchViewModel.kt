@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import cn.deepink.booker.common.SOURCE_JINJIANG
-import cn.deepink.booker.common.SOURCE_QIDIAN
 import cn.deepink.booker.http.Http
+import cn.deepink.booker.http.SOURCE
 import cn.deepink.booker.model.Book
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,7 +27,7 @@ class SearchViewModel : ViewModel() {
         searchStateLiveData.postValue(true)
         searchKey = bookName
         if (searchKey.isNotBlank()) {
-            val bookInfoList = Http.search.qidian(bookName).execute().body()?.getBookList()?.filter { it.name.contains(bookName) }.orEmpty()
+            val bookInfoList = Http.jsonService.qidian(bookName).execute().body()?.getBookList()?.filter { it.name.contains(bookName) }.orEmpty()
             emit(bookInfoList.subList(0, min(bookInfoList.size, 8)).reversed())
         } else {
             emit(emptyList())
@@ -43,12 +42,13 @@ class SearchViewModel : ViewModel() {
         searchKey = bookName
         val bookList = CopyOnWriteArrayList<Book>()
         withContext(Dispatchers.Default) {
-            listOf(SOURCE_QIDIAN, SOURCE_JINJIANG).forEach { source ->
+            SOURCE.values().forEach { source ->
                 launch(Dispatchers.IO) {
-                    when (source) {
-                        SOURCE_QIDIAN -> bookList.addAll(searchByQidian(bookName))
-                        SOURCE_JINJIANG -> bookList.addAll(searchByJinJiang(bookName))
-                    }
+                    bookList.addAll(when (source) {
+                        SOURCE.QiDian -> searchByQidian(bookName)
+                        SOURCE.JinJiang -> searchByJinJiang(bookName)
+                        SOURCE.EBTang -> searchByEBTang(bookName)
+                    })
                     emit(bookList.toList())
                 }
                 Unit
@@ -60,8 +60,8 @@ class SearchViewModel : ViewModel() {
      * 起点中文网
      */
     private fun searchByQidian(bookName: String) = try {
-        Http.search.qidian(bookName).execute().body()?.getBookList()?.filter { it.name.contains(bookName) }.orEmpty()
-    }catch (e: Exception) {
+        Http.jsonService.qidian(bookName).execute().body()?.getBookList()?.filter { it.name.contains(bookName) }.orEmpty()
+    } catch (e: Exception) {
         emptyList<Book>()
     }
 
@@ -69,8 +69,17 @@ class SearchViewModel : ViewModel() {
      * 晋江文学城
      */
     private fun searchByJinJiang(bookName: String) = try {
-        Http.search.jinjiang(bookName).execute().body()?.getBookList()?.filter { it.name.contains(bookName) }.orEmpty()
-    }catch (e: Exception) {
+        Http.jsonService.jinjiang(bookName).execute().body()?.getBookList()?.filter { it.name.contains(bookName) }.orEmpty()
+    } catch (e: Exception) {
+        emptyList<Book>()
+    }
+
+    /**
+     * 雁北堂
+     */
+    private fun searchByEBTang(bookName: String) = try {
+        Http.htmlService.ebTang(bookName).getBookList().filter { it.name.contains(bookName) }
+    } catch (e: Exception) {
         emptyList<Book>()
     }
 

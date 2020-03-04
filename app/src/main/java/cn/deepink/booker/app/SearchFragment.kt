@@ -93,7 +93,7 @@ class SearchFragment : Fragment(), ViewDelegate {
     }
 
     private fun buildBookInfoAdapter() = ListAdapter<Book>(R.layout.item_book_search) { item, book ->
-        item.itemView.mBookName.setDrawableStart(book.sourceResId)
+        item.itemView.mBookName.setDrawableStart(book.sourceType.icon)
         item.itemView.mBookName.text = book.name
         item.itemView.mBookAuthor.text = book.author
         item.itemView.mBookSummary.text = book.summary.trim()

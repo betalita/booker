@@ -3,28 +3,17 @@ package cn.deepink.booker.model
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import cn.deepink.booker.R
-import cn.deepink.booker.common.SOURCE_JINJIANG
-import cn.deepink.booker.common.SOURCE_QIDIAN
+import cn.deepink.booker.http.SOURCE
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Entity
 @Parcelize
-data class Book(val source: Int, val name: String, val author: String = "", val summary: String = "", val cover: String = "", val link: String = "", var category: String = "", var state: Int = 0, @ColumnInfo(name = "last_chapter_name") var lastChapterName: String = "", @ColumnInfo(name = "last_update_time") var lastUpdateTime: Long = 0L, @ColumnInfo(name = "chapter_total") var chapterTotal: Int = 0, @ColumnInfo(name = "words_total") var wordsTotal: String = "", @ColumnInfo(name = "monthly_ticket") var monthlyTicket: Int = 0, @ColumnInfo(name = "recommended_ticket") var recommendedTicket: Int = 0, @ColumnInfo(name = "read_chapter") var readChapter: Int = 0, var notification: Int = 0, @ColumnInfo(name = "create_time") val createTime: Long = System.currentTimeMillis(), @PrimaryKey(autoGenerate = true) val id: Long = 0L) : Parcelable {
+data class Book(val source: String, val name: String, val author: String = "", val summary: String = "", val cover: String = "", val link: String = "", var category: String = "", var state: Int = 0, @ColumnInfo(name = "last_chapter_name") var lastChapterName: String = "", @ColumnInfo(name = "last_update_time") var lastUpdateTime: Long = 0L, @ColumnInfo(name = "chapter_total") var chapterTotal: Int = 0, @ColumnInfo(name = "words_total") var wordsTotal: String = "", @ColumnInfo(name = "monthly_ticket") var monthlyTicket: Int = 0, @ColumnInfo(name = "recommended_ticket") var recommendedTicket: Int = 0, @ColumnInfo(name = "read_chapter") var readChapter: Int = 0, var notification: Int = 0, @ColumnInfo(name = "create_time") val createTime: Long = System.currentTimeMillis(), @PrimaryKey(autoGenerate = true) val id: Long = 0L) : Parcelable {
 
-    val sourceResId: Int
-        get() = when (source) {
-            SOURCE_QIDIAN -> R.drawable.ic_source_qidian
-            SOURCE_JINJIANG -> R.drawable.ic_source_jjwxc
-            else -> 0
-        }
-
-    val statisticsResId: Int
-        get() = when (source) {
-            SOURCE_QIDIAN -> R.string.book_statistics_qidian
-            SOURCE_JINJIANG -> R.string.book_statistics_jijiang
-            else -> 0
-        }
+    @IgnoredOnParcel
+    val sourceType: SOURCE
+        get() = SOURCE.valueOf(source)
 
     fun areContentTheSame(book: Book) = state == book.state && lastChapterName == book.lastChapterName && lastUpdateTime == book.lastUpdateTime && chapterTotal == book.chapterTotal && wordsTotal == book.wordsTotal && readChapter == book.readChapter && notification == book.notification
 

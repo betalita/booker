@@ -1,6 +1,6 @@
 package cn.deepink.booker.model
 
-import cn.deepink.booker.common.SOURCE_QIDIAN
+import cn.deepink.booker.http.SOURCE
 
 /**
  * 搜索
@@ -14,7 +14,7 @@ data class QiDianData(val bookInfo: QiDianBookInfo, val vs: List<QidianBooklet>,
 data class QiDianBookInfo(val records: List<QiDianRecord>)
 
 data class QiDianRecord(val bid: Long, val bName: String, val bAuth: String, val desc: String, val imgUrl: String, val cat: String) {
-    fun toBook() = Book(SOURCE_QIDIAN, bName, bAuth, desc, "https:$imgUrl", "https://m.qidian.com/book/$bid", cat)
+    fun toBook() = Book(SOURCE.QiDian.name, bName, bAuth, desc, "https:$imgUrl", "https://m.qidian.com/book/$bid", cat)
 }
 
 /**

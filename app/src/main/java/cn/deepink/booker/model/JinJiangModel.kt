@@ -1,6 +1,6 @@
 package cn.deepink.booker.model
 
-import cn.deepink.booker.common.SOURCE_JINJIANG
+import cn.deepink.booker.http.SOURCE
 
 data class JinJiangResponse(val items: List<JinJiangItem>) {
     fun getBookList() = items.map { it.toBook() }
@@ -8,7 +8,7 @@ data class JinJiangResponse(val items: List<JinJiangItem>) {
 
 data class JinJiangItem(val novelid: Long, val novelname: String, val authorname: String, val novelintro: String, val cover: String, val novelClass: String) {
 
-    fun toBook() = Book(SOURCE_JINJIANG, novelname, authorname, novelintro.trim(), cover, "http://app-cdn.jjwxc.net:80/androidapi/novelbasicinfo?novelId=$novelid", novelClass.split("-").first())
+    fun toBook() = Book(SOURCE.JinJiang.name, novelname, authorname, novelintro.trim(), cover, "http://app-cdn.jjwxc.net:80/androidapi/novelbasicinfo?novelId=$novelid", novelClass.split("-").first())
 
 }
 
