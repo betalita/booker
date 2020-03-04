@@ -20,6 +20,7 @@ class BookUpdater(private val book: Book) {
             SOURCE.MoTie -> updateFromMoTie()
             SOURCE.CiWeiMao -> updateFromCiWeiMao()
             SOURCE.HanWuJiNian -> updateFromHanWuJiNian()
+            SOURCE.DouBan -> updateFromDouBan()
         }
         if (isUpdateDatabase) {
             Room.book().update(book)
@@ -119,4 +120,20 @@ class BookUpdater(private val book: Book) {
         book.lastChapterName = catalog.first().chaptername
         book.lastUpdateTime = catalog.first().lastupdate * 1000
     }
+
+    /**
+     * 豆瓣阅读
+     */
+    private fun updateFromDouBan() {
+        val detail = Http.jsonService.douBanDetail(book.link).execute().body() ?: return
+        book.category = detail.category
+        book.state = if (detail.isFinished) 0 else 1
+        book.wordsTotal = detail.wordCount.toString()
+        book.lastChapterName = detail.lastPublishedChapter.title
+        book.lastUpdateTime = detail.lastPublishedChapter.onSaleTimestamp * 1000
+        book.monthlyTicket = detail.readCount
+        book.recommendedTicket = detail.recVoteCount
+        book.chapterTotal = detail.total
+    }
+
 }

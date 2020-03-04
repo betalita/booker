@@ -3,6 +3,7 @@ package cn.deepink.booker.http
 import cn.deepink.booker.BuildConfig
 import cn.deepink.booker.R
 import cn.deepink.booker.model.*
+import com.blankj.ALog
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jsoup.Jsoup
@@ -30,8 +31,10 @@ object Http {
             SOURCE.MoTie -> jsonService.motie(bookName).execute().body()?.getBookList()
             SOURCE.CiWeiMao -> htmlService.ciweimao(bookName).getBookList()
             SOURCE.HanWuJiNian -> htmlService.hanWuJiNian(bookName).getBookList()
+            SOURCE.DouBan -> jsonService.douBan(bookName).execute().body()?.filter { it.abstract?.isNotBlank() == true }?.map { it.toBook() }
         }?.filter { it.name.contains(bookName) } ?: emptyList()
     } catch (e: Exception) {
+        ALog.w(e)
         emptyList()
     }
 
@@ -50,9 +53,10 @@ object Http {
 enum class SOURCE(val icon: Int, val statistics: Int) {
     QiDian(R.drawable.ic_source_qidian, R.string.book_statistics_qidian),
     JinJiang(R.drawable.ic_source_jjwxc, R.string.book_statistics_jijiang),
-    EBTang(R.drawable.ic_source_ebtang, R.string.book_statistics_etbang),
     MoTie(R.drawable.ic_source_motie, R.string.book_statistics_motie),
     CiWeiMao(R.drawable.ic_source_ciweimao, R.string.book_statistics_ciweimao),
+    DouBan(R.drawable.ic_source_douban, R.string.book_statistics_douban),
+    EBTang(R.drawable.ic_source_ebtang, R.string.book_statistics_etbang),
     HanWuJiNian(R.drawable.ic_source_hanwujinian, R.string.book_statistics_hanwujinian)
 }
 
@@ -81,6 +85,12 @@ interface JsonService {
 
     @GET
     fun hanWuJiNianCatalog(@Url url: String): Call<HanWuJiNianData>
+
+    @GET("https://read.douban.com/j/search?start=0&limit=10")
+    fun douBan(@Query("query") bookName: String): Call<List<DouBanItem>>
+
+    @GET
+    fun douBanDetail(@Url url: String): Call<DouBanBook>
 }
 
 /**
