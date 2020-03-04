@@ -18,6 +18,7 @@ class BookUpdater(private val book: Book) {
             SOURCE.JinJiang -> updateFromJinJiang()
             SOURCE.EBTang -> updateFromEBTang()
             SOURCE.MoTie -> updateFromMoTie()
+            SOURCE.HanWuJiNian -> updateFromHanWuJiNian()
         }
         if (isUpdateDatabase) {
             Room.book().update(book)
@@ -87,5 +88,20 @@ class BookUpdater(private val book: Book) {
         book.monthlyTicket = detail.visitCount
         book.recommendedTicket = detail.supportCount
         book.chapterTotal = detail.chapterCount
+    }
+
+    /**
+     * 寒武纪年
+     */
+    private fun updateFromHanWuJiNian() {
+        val document = Jsoup.connect(book.link).get()
+        book.state = if (document.selectFirst("h1 > .tag").text().contains("连载")) 1 else 0
+        book.wordsTotal = document.selectFirst("div.other").text().split("，").first()
+        book.monthlyTicket = Regex("[0-9]+").find(document.selectFirst(".center-operate > a:nth-child(2)").text())?.value?.toIntOrNull() ?: 0
+        book.recommendedTicket = Regex("[0-9]+").find(document.selectFirst(".center-operate > a:nth-child(1)").text())?.value?.toIntOrNull() ?: 0
+        val catalog = Http.jsonService.hanWuJiNianCatalog("${book.link.replace("modules/article/articleinfo.php?id", "riku/read/bookmenupage.php?aid")}&order=2&offset=0&limit=1000&uid=0").execute().body()?.data ?: return
+        book.chapterTotal = catalog.size
+        book.lastChapterName = catalog.first().chaptername
+        book.lastUpdateTime = catalog.first().lastupdate * 1000
     }
 }
