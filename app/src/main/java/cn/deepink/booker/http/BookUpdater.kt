@@ -17,6 +17,7 @@ class BookUpdater(private val book: Book) {
             SOURCE.QiDian -> updateFromQidian()
             SOURCE.JinJiang -> updateFromJinJiang()
             SOURCE.EBTang -> updateFromEBTang()
+            SOURCE.CiWeiMao -> updateFromCiWeiMao()
         }
         if (isUpdateDatabase) {
             Room.book().update(book)
@@ -71,5 +72,19 @@ class BookUpdater(private val book: Book) {
         book.monthlyTicket = detail.attr("d-golden").toInt()
         book.recommendedTicket = detail.attr("d-hot").toInt()
         book.chapterTotal = Jsoup.connect("${book.link}/directory").get().select("b.chapter").size
+    }
+
+    /**
+     * 刺猬猫
+     */
+    private fun updateFromCiWeiMao() {
+        val document = Jsoup.connect(book.link).get()
+        book.state = if (document.selectFirst("p.update-state").text().indexOf("连载") == 1) 0 else 1
+        book.wordsTotal = document.selectFirst("p.book-grade > b:nth-child(3)").text()
+        book.lastChapterName = document.selectFirst("h3.tit > a").text()
+        book.lastUpdateTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE).parse(document.selectFirst("h3.tit > span").text().replace("更新时间：", ""))?.time ?: 0
+        book.monthlyTicket = document.selectFirst("li.month > h3").text().toInt()
+        book.recommendedTicket = document.selectFirst("li.recommend > h3").text().toInt()
+        book.chapterTotal = document.select("ul.book-chapter-list > li").size
     }
 }

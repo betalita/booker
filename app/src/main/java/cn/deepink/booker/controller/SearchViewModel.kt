@@ -48,6 +48,7 @@ class SearchViewModel : ViewModel() {
                         SOURCE.QiDian -> searchByQidian(bookName)
                         SOURCE.JinJiang -> searchByJinJiang(bookName)
                         SOURCE.EBTang -> searchByEBTang(bookName)
+                        SOURCE.CiWeiMao -> searchByCiWeiMao(bookName)
                     })
                     emit(bookList.toList())
                 }
@@ -79,6 +80,15 @@ class SearchViewModel : ViewModel() {
      */
     private fun searchByEBTang(bookName: String) = try {
         Http.htmlService.ebTang(bookName).getBookList().filter { it.name.contains(bookName) }
+    } catch (e: Exception) {
+        emptyList<Book>()
+    }
+
+    /**
+     * 刺猬猫
+     */
+    private fun searchByCiWeiMao(bookName: String) = try {
+        Http.htmlService.ciweimao(bookName).getBookList().filter { it.name.contains(bookName) }
     } catch (e: Exception) {
         emptyList<Book>()
     }

@@ -17,10 +17,11 @@
     <string name="search_result">搜索结果</string>
 
     <string name="tips">提示</string>
-    <string name="guide">养肥君能关注指定图书的连载状态，并且在养肥或者完结时以通知的方式提醒你。目前支持：起点中文网、晋江文学城。\n点击右上角的「 + 」来关注第一本书吧！</string>
+    <string name="guide">养肥君能关注指定图书的连载状态，并且在养肥或者完结时以通知的方式提醒你。目前支持：起点中文网、晋江文学城、刺猬猫。\n点击右上角的「 + 」来关注第一本书吧！</string>
 
     <string name="book_statistics_qidian">共%d章 ｜ 月票%d张 ｜ 推荐票%d张</string>
     <string name="book_statistics_jijiang">共%d章 ｜ 收藏数%d ｜ 营养液%d瓶</string>
     <string name="book_statistics_etbang">共%d章 ｜ 金票%d张 ｜ %d人喜欢看</string>
+    <string name="book_statistics_ciweimao">共%d章 ｜ 月票%d张 ｜ 推荐票%d张</string>
 
 </resources>
