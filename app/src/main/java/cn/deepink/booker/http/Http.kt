@@ -3,7 +3,6 @@ package cn.deepink.booker.http
 import cn.deepink.booker.BuildConfig
 import cn.deepink.booker.R
 import cn.deepink.booker.model.*
-import com.blankj.ALog
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jsoup.Jsoup
@@ -32,7 +31,6 @@ object Http {
             SOURCE.HanWuJiNian -> htmlService.hanWuJiNian(bookName).getBookList().apply { ALog.w(this) }
         }?.filter { it.name.contains(bookName) } ?: emptyList()
     } catch (e: Exception) {
-        ALog.w(e)
         emptyList()
     }
 
@@ -53,6 +51,7 @@ enum class SOURCE(val icon: Int, val statistics: Int) {
     JinJiang(R.drawable.ic_source_jjwxc, R.string.book_statistics_jijiang),
     EBTang(R.drawable.ic_source_ebtang, R.string.book_statistics_etbang),
     MoTie(R.drawable.ic_source_motie, R.string.book_statistics_motie),
+    CiWeiMao(R.drawable.ic_source_ciweimao, R.string.book_statistics_ciweimao),
     HanWuJiNian(R.drawable.ic_source_hanwujinian, R.string.book_statistics_hanwujinian)
 }
 
@@ -90,6 +89,10 @@ class HtmlService {
 
     fun ebTang(bookName: String): EBTangResponse {
         return EBTangResponse(Jsoup.connect("http://m.ebtang.com/m/book/search?searchName=${bookName}").get())
+    }
+
+    fun ciweimao(bookName: String): CiWeiMaoResponse {
+        return CiWeiMaoResponse(Jsoup.connect("https://www.ciweimao.com/get-search-book-list/0-0-0-0-0-0/%E5%85%A8%E9%83%A8/${bookName}/1").get())
     }
 
     fun hanWuJiNian(bookName: String): HanWuJiNianResponse {
