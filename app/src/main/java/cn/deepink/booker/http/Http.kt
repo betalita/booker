@@ -33,6 +33,7 @@ object Http {
             SOURCE.DouBan -> jsonService.douBan(bookName).execute().body()?.filter { it.abstract?.isNotBlank() == true }?.map { it.toBook() }
             SOURCE.FaLoo -> htmlService.faLoo(bookName).getBookList()
             SOURCE.LiNovel -> htmlService.liNovel(bookName).getBookList()
+            SOURCE.HongXiu -> jsonService.hongXiu(bookName).execute().body()?.getBookList()
         }?.filter { it.name.contains(bookName) } ?: emptyList()
     } catch (e: Exception) {
         emptyList()
@@ -59,6 +60,7 @@ enum class SOURCE(val title: String, val url: String, val icon: Int, val statist
     DouBan("豆瓣阅读", "https://read.douban.com", R.drawable.ic_source_douban, R.string.book_statistics_douban),
     EBTang("雁北堂", "http://www.ebtang.com", R.drawable.ic_source_ebtang, R.string.book_statistics_etbang),
     LiNovel("轻之文库", "https://www.linovel.net", R.drawable.ic_source_linovel, R.string.book_statistics_linovel),
+    HongXiu("红袖添香", "https://www.hongxiu.com", R.drawable.ic_source_hongxiu, R.string.book_statistics_qidian),
     HanWuJiNian("寒武纪年", "https://www.hanwujinian.com", R.drawable.ic_source_hanwujinian, R.string.book_statistics_hanwujinian)
 }
 
@@ -93,6 +95,9 @@ interface JsonService {
 
     @GET
     fun douBanDetail(@Url url: String): Call<DouBanBook>
+
+    @GET("https://m.hongxiu.com/majax/search/list")
+    fun hongXiu(@Query("kw") bookName: String): Call<HongXiuResponse>
 }
 
 /**
