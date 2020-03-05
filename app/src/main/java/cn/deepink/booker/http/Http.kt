@@ -32,6 +32,7 @@ object Http {
             SOURCE.HanWuJiNian -> htmlService.hanWuJiNian(bookName).getBookList()
             SOURCE.DouBan -> jsonService.douBan(bookName).execute().body()?.filter { it.abstract?.isNotBlank() == true }?.map { it.toBook() }
             SOURCE.FaLoo -> htmlService.faLoo(bookName).getBookList()
+            SOURCE.LiNovel -> htmlService.liNovel(bookName).getBookList()
         }?.filter { it.name.contains(bookName) } ?: emptyList()
     } catch (e: Exception) {
         emptyList()
@@ -57,6 +58,7 @@ enum class SOURCE(val title: String, val url: String, val icon: Int, val statist
     FaLoo("飞卢小说网", "https://www.faloo.com", R.drawable.ic_source_faloo, R.string.book_statistics_faloo),
     DouBan("豆瓣阅读", "https://read.douban.com", R.drawable.ic_source_douban, R.string.book_statistics_douban),
     EBTang("雁北堂", "http://www.ebtang.com", R.drawable.ic_source_ebtang, R.string.book_statistics_etbang),
+    LiNovel("轻之文库", "https://www.linovel.net", R.drawable.ic_source_linovel, R.string.book_statistics_linovel),
     HanWuJiNian("寒武纪年", "https://www.hanwujinian.com", R.drawable.ic_source_hanwujinian, R.string.book_statistics_hanwujinian)
 }
 
@@ -112,6 +114,10 @@ class HtmlService {
 
     fun faLoo(bookName: String): FaLooResponse {
         return FaLooResponse(Jsoup.connect("https://wap.faloo.com/category/0/1.html?k=${URLEncoder.encode(bookName, "GBK")}").get())
+    }
+
+    fun liNovel(bookName: String): LiNovelResponse {
+        return LiNovelResponse(Jsoup.connect("https://www.linovel.net/search/index?kw=${bookName}").get())
     }
 
 }

@@ -1,6 +1,8 @@
 package cn.deepink.booker.http
 
 import cn.deepink.booker.common.Room
+import cn.deepink.booker.common.toNumber
+import cn.deepink.booker.common.toTime
 import cn.deepink.booker.model.Book
 import org.jsoup.Jsoup
 import java.text.SimpleDateFormat
@@ -22,6 +24,7 @@ class BookUpdater(private val book: Book) {
             SOURCE.HanWuJiNian -> updateFromHanWuJiNian()
             SOURCE.DouBan -> updateFromDouBan()
             SOURCE.FaLoo -> updateFromFaLoo()
+            SOURCE.LiNovel -> updateFromLiNovel()
         }
         if (isUpdateDatabase) {
             Room.book().update(book)
@@ -150,6 +153,20 @@ class BookUpdater(private val book: Book) {
         book.monthlyTicket = document.selectFirst("#fist_1 > a:nth-child(3) > span").text().toIntOrNull() ?: 0
         book.recommendedTicket = document.selectFirst("#fist_1 > a:nth-child(2) > span").text().toIntOrNull() ?: 0
         book.chapterTotal = Regex("[0-9]+").find(document.selectFirst("#chpaterDirBox > h2").text())?.value?.toIntOrNull() ?: 0
+    }
+
+    /**
+     * 轻之文库
+     */
+    private fun updateFromLiNovel() {
+        val document = Jsoup.connect(book.link).get()
+        book.state = if (document.selectFirst("div.book-data > span:nth-child(7)").text().contains("连载")) 1 else 0
+        book.wordsTotal = document.selectFirst("div.book-data > span:nth-child(1)").text()
+        book.lastChapterName = document.selectFirst("div.chapter-item.new > a").text()
+        book.lastUpdateTime = document.selectFirst("div.chapter-item.new > small").text().trim().toTime()
+        book.monthlyTicket = document.selectFirst("div.book-data > span:nth-child(5)").text().toIntOrNull() ?: 0
+        book.recommendedTicket = document.selectFirst("div.book-data > span:nth-child(3)").text().toNumber()
+        book.chapterTotal =  Regex("[0-9]+").find(document.selectFirst("div.tab-bar > a:nth-child(2) > span > small").text().replace(Regex(".+卷"), ""))?.value?.toIntOrNull() ?: 0
     }
 
 }
