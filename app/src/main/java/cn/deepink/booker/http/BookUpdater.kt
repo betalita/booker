@@ -21,6 +21,7 @@ class BookUpdater(private val book: Book) {
             SOURCE.CiWeiMao -> updateFromCiWeiMao()
             SOURCE.HanWuJiNian -> updateFromHanWuJiNian()
             SOURCE.DouBan -> updateFromDouBan()
+            SOURCE.FaLoo -> updateFromFaLoo()
         }
         if (isUpdateDatabase) {
             Room.book().update(book)
@@ -134,6 +135,21 @@ class BookUpdater(private val book: Book) {
         book.monthlyTicket = detail.readCount
         book.recommendedTicket = detail.recVoteCount
         book.chapterTotal = detail.total
+    }
+
+    /**
+     * 飞卢小说网
+     */
+    private fun updateFromFaLoo() {
+        val document = Jsoup.connect(book.link).get()
+        book.category = document.selectFirst("div.book_info > div.book_r_box > dl > dd:nth-child(3) > span:nth-child(1) > a").text()
+        book.state = if (document.selectFirst("div.book_info > div.book_r_box > dl > dd:nth-child(3) > span:nth-child(2)").text().contains("连载")) 1 else 0
+        book.wordsTotal = document.selectFirst("div.book_info > div.book_r_box > dl > dd:nth-child(4) > span:nth-child(2)").text()
+        book.lastChapterName = document.selectFirst("p > .chap").text()
+        book.lastUpdateTime = SimpleDateFormat("yy-MM-dd", Locale.CHINESE).parse(document.selectFirst("p > .time").text())?.time ?: 0
+        book.monthlyTicket = document.selectFirst("#fist_1 > a:nth-child(3) > span").text().toIntOrNull() ?: 0
+        book.recommendedTicket = document.selectFirst("#fist_1 > a:nth-child(2) > span").text().toIntOrNull() ?: 0
+        book.chapterTotal = Regex("[0-9]+").find(document.selectFirst("#chpaterDirBox > h2").text())?.value?.toIntOrNull() ?: 0
     }
 
 }

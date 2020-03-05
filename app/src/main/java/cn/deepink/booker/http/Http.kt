@@ -3,7 +3,6 @@ package cn.deepink.booker.http
 import cn.deepink.booker.BuildConfig
 import cn.deepink.booker.R
 import cn.deepink.booker.model.*
-import com.blankj.ALog
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jsoup.Jsoup
@@ -32,9 +31,9 @@ object Http {
             SOURCE.CiWeiMao -> htmlService.ciweimao(bookName).getBookList()
             SOURCE.HanWuJiNian -> htmlService.hanWuJiNian(bookName).getBookList()
             SOURCE.DouBan -> jsonService.douBan(bookName).execute().body()?.filter { it.abstract?.isNotBlank() == true }?.map { it.toBook() }
+            SOURCE.FaLoo -> htmlService.faLoo(bookName).getBookList()
         }?.filter { it.name.contains(bookName) } ?: emptyList()
     } catch (e: Exception) {
-        ALog.w(e)
         emptyList()
     }
 
@@ -55,6 +54,7 @@ enum class SOURCE(val title: String, val url: String, val icon: Int, val statist
     JinJiang("晋江文学城", "http://www.jjwxc.net", R.drawable.ic_source_jjwxc, R.string.book_statistics_jijiang),
     MoTie("磨铁中文网", "http://www.motie.com", R.drawable.ic_source_motie, R.string.book_statistics_motie),
     CiWeiMao("刺猬猫", "https://www.ciweimao.com", R.drawable.ic_source_ciweimao, R.string.book_statistics_ciweimao),
+    FaLoo("飞卢小说网", "https://www.faloo.com", R.drawable.ic_source_faloo, R.string.book_statistics_faloo),
     DouBan("豆瓣阅读", "https://read.douban.com", R.drawable.ic_source_douban, R.string.book_statistics_douban),
     EBTang("雁北堂", "http://www.ebtang.com", R.drawable.ic_source_ebtang, R.string.book_statistics_etbang),
     HanWuJiNian("寒武纪年", "https://www.hanwujinian.com", R.drawable.ic_source_hanwujinian, R.string.book_statistics_hanwujinian)
@@ -108,6 +108,10 @@ class HtmlService {
 
     fun hanWuJiNian(bookName: String): HanWuJiNianResponse {
         return HanWuJiNianResponse(Jsoup.connect("https://wap.hanwujinian.com/modules/article/search.php?searchkey=${URLEncoder.encode(bookName, "GBK")}&searchtype=all").get())
+    }
+
+    fun faLoo(bookName: String): FaLooResponse {
+        return FaLooResponse(Jsoup.connect("https://wap.faloo.com/category/0/1.html?k=${URLEncoder.encode(bookName, "GBK")}").get())
     }
 
 }
